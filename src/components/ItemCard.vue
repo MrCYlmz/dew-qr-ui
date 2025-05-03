@@ -10,7 +10,7 @@ const imageUrl = computed(() =>
   imageBlob.value ? URL.createObjectURL(imageBlob.value) : undefined
 );
 
-const shoppingCart = inject<{ items: { id: string; name: string; quantity: number }[] }>('shoppingCart');
+const shoppingCart = inject<{ items: { id: string; name: string; quantity: number, price: number }[] }>('shoppingCart');
 
 const addToCart = () => {
   if (props.item.id && shoppingCart) {
@@ -18,7 +18,7 @@ const addToCart = () => {
     if (existingItem) {
       existingItem.quantity++;
     } else {
-      shoppingCart.items.push({ id: (props.item.id), name: props.item.name!, quantity: 1 });
+      shoppingCart.items.push({ id: (props.item.id), name: props.item.name!, quantity: 1, price: props.item.price });
     }
     console.log('Added to cart:', props.item.id);
   }
