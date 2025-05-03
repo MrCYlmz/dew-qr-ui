@@ -1,0 +1,33 @@
+{
+  "name": "dew-qr-ui",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -b && vite build",
+    "preview": "vite preview",
+    "clean": "rimraf dist",
+    "openapi:link": "npm link @mrdew/dewqr-api-generator"
+  },
+  "dependencies": {
+    "@mdi/font": "^7.4.47",
+    "@tanstack/vue-query": "^5.74.6",
+    "import": "^0.0.6",
+    "jwt-decode": "^4.0.0",
+    "sass": "^1.87.0",
+    "vue": "^3.5.13",
+    "vue-router": "^4.5.1",
+    "vuetify": "^3.8.2"
+  },
+  "devDependencies": {
+    "@fortawesome/fontawesome-free": "^6.7.2",
+    "@types/jwt-decode": "^3.1.0",
+    "@types/vue-router": "^2.0.0",
+    "@vitejs/plugin-vue": "^5.2.2",
+    "@vue/tsconfig": "^0.7.0",
+    "typescript": "~5.7.2",
+    "vite": "^6.3.1",
+    "vue-tsc": "^2.2.8"
+  }
+}
