@@ -1,27 +1,16 @@
 <script setup lang="ts">
-import { computed, inject } from 'vue';
+import { computed } from 'vue';
+import { useShoppingCart } from "../composables/useShoppingCart";
 import { usePlaceOrder } from '../api/user/mutations';
 import { getUserId } from '../utils/jwtUtils';
 
-const shoppingCart = inject<{ items: { itemId: string; name: string; quantity: number , price: number }[] }>('shoppingCart');
-const cartItems = computed(() => shoppingCart?.items || []);
+const { shoppingCart, removeItem, clearCart,addItem } = useShoppingCart();
+const cartItems = computed(() => shoppingCart?.items);
 const hasItemsInCart = computed(() => cartItems.value.length > 0);
 
 const totalPrice = computed(() => {
   return cartItems.value.reduce((sum, item) => sum + item.price * item.quantity, 0);
 });
-
-const increaseQuantity = (index: number) => {
-  if (shoppingCart) shoppingCart.items[index].quantity++;
-};
-
-const decreaseQuantity = (index: number) => {
-  if (shoppingCart && shoppingCart.items[index].quantity > 1) {
-    shoppingCart.items[index].quantity--;
-  } else if (shoppingCart) {
-    shoppingCart.items.splice(index, 1);
-  }
-};
 
 const payload = computed(() => {
   return {
@@ -36,7 +25,7 @@ const checkout = () => {
     placeOrder( payload.value , {
       onSuccess: () => {
         console.log('Order placed successfully');
-        shoppingCart.items.splice(0, shoppingCart.items.length);
+        clearCart();
       },
       onError: (error: { message: string }) => {
         alert('Order failed: ' + error.message);
@@ -57,10 +46,10 @@ const checkout = () => {
         <v-list-item-title>{{ item.name }}</v-list-item-title>
         <v-list-item-subtitle>Quantity: {{ item.quantity }}</v-list-item-subtitle>
         <v-list-item-subtitle>Price: {{ item.price * item.quantity }} $</v-list-item-subtitle>
-        <v-btn icon @click="decreaseQuantity(index)">
+        <v-btn icon @click="removeItem(item.itemId)">
           <v-icon>mdi-minus</v-icon>
         </v-btn>
-        <v-btn icon @click="increaseQuantity(index)">
+        <v-btn icon @click="addItem(item)">
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </v-list-item>

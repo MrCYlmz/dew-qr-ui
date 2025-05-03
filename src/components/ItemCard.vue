@@ -1,7 +1,8 @@
 <script setup lang="ts">
 import type { Item } from "../api/openapi";
-import { computed, ref, watch, inject } from "vue";
-import {useFetchImage} from "../api/user/queries.ts";
+import { computed, ref } from "vue";
+import { useFetchImage } from "../api/user/queries.ts";
+import { useShoppingCart } from "../composables/useShoppingCart";
 
 const show = ref(false);
 const props = defineProps<{ item: Item }>();
@@ -9,31 +10,14 @@ const { data: imageBlob, isFetched } = useFetchImage(props.item.id!);
 const imageUrl = computed(() =>
   imageBlob.value ? URL.createObjectURL(imageBlob.value) : undefined
 );
+const { addItem } = useShoppingCart();
 
-const shoppingCart = inject<{ items: { id: string; name: string; quantity: number, price: number }[] }>('shoppingCart');
-
-const addToCart = () => {
-  if (props.item.id && shoppingCart) {
-    const existingItem = shoppingCart.items.find(cartItem => cartItem.id === props.item.id);
-    if (existingItem) {
-      existingItem.quantity++;
-    } else {
-      shoppingCart.items.push({ id: (props.item.id), name: props.item.name!, quantity: 1, price: props.item.price });
-    }
-    console.log('Added to cart:', props.item.id);
-  }
-};
-
-watch(
-  imageBlob,
-  (newValue) => {
-    if (newValue) {
-      console.log("imageBlob", newValue);
-      console.log("imageUrl", imageUrl.value);
-    }
-  },
-  { immediate: true }
-);
+const addToCart = () =>
+  addItem({
+    itemId: props.item.id!,
+    name: props.item.name!,
+    price: props.item.price,
+  });
 </script>
 <template>
   <v-card>
