@@ -3,6 +3,7 @@ import { computed } from 'vue';
 import { useShoppingCart } from "../composables/useShoppingCart";
 import { usePlaceOrder } from '../api/user/mutations';
 import { getUserId } from '../utils/jwtUtils';
+import type { Order } from '../api/openapi';
 
 defineProps({
   isVisible: {
@@ -18,10 +19,12 @@ const totalPrice = computed(() => {
   return cartItems.value.reduce((sum, item) => sum + item.price * item.quantity, 0);
 });
 
-const payload = computed(() => {
+const payload = computed<Order>(() => {
   return {
     userId: getUserId()!,
     items: shoppingCart?.items!,
+    totalPrice: totalPrice.value,
+    orderedAt: new Date().toISOString(),
   };
 });
 
