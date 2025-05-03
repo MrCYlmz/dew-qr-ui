@@ -32,6 +32,7 @@ const adminConfig = new Configuration({
 });
 
 export * from '@mrdew/dewqr-api-generator/src/gen/models'
+export type {Configuration}
 export const userApi = new UserApi(userConfig);
 export const adminApi = new AdminApi(adminConfig);
 export const authApi = new AuthApi(baseConfig)

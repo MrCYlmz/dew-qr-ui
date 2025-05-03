@@ -1,10 +1,7 @@
-function getItemFromLocalStorage(key: string) {
-    return localStorage.getItem(key) || '';
-}
+import type { RawAxiosRequestConfig } from 'axios';
+import { getUserToken, getAdminToken } from '../../utils/jwtUtils';
 
-
-function setAuthorizationHeader(options: any = {}, key: string) {
-    const token = getItemFromLocalStorage(key);
+function setAuthorizationHeader(options: RawAxiosRequestConfig = {}, token: string | null): RawAxiosRequestConfig {
     return {
         ...options,
         headers: {
@@ -14,10 +11,12 @@ function setAuthorizationHeader(options: any = {}, key: string) {
     };
 }
 
-export function withUserAuthorization(options: any = {}){
-    return setAuthorizationHeader(options, 'adminJwtToken') ?? setAuthorizationHeader(options, 'userJwtToken')
+export function withUserAuthorization(options: any = {}) {
+    const userToken = getUserToken();
+    const tokenToUse = userToken || getAdminToken(); // Use admin token if user token is not available
+    return setAuthorizationHeader(options, tokenToUse);
 }
 
-export function withAdminAuthorization(options: any = {}){
-    return setAuthorizationHeader(options, 'adminJwtToken')
+export function withAdminAuthorization(options: any = {}) {
+    return setAuthorizationHeader(options, getAdminToken());
 }

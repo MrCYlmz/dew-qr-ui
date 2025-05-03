@@ -7,9 +7,11 @@ export interface JwtPayload {
   iat: number; 
   exp: number; 
 }
+export const USER_JWT_TOKEN = 'userJwtToken';
+export const ADMIN_JWT_TOKEN = 'adminJwtToken';
 
 export function getDecodedToken(): JwtPayload | undefined {
-  const token = localStorage.getItem('userJwtToken');
+  const token = localStorage.getItem(USER_JWT_TOKEN);
   if (!token) return undefined;
 
   try {
@@ -31,14 +33,21 @@ export function getUserRole(): TokenRoleEnum | undefined {
 }
 
 export function clearUserToken() {
-  localStorage.removeItem('userJwtToken');
+  localStorage.removeItem(USER_JWT_TOKEN);
 }
 export function clearAdminToken() {
-  localStorage.removeItem('adminJwtToken');
+  localStorage.removeItem(ADMIN_JWT_TOKEN);
 }
 export function setUserToken(token: string) {
-  localStorage.setItem('userJwtToken', token);
+  localStorage.setItem(USER_JWT_TOKEN, token);
 }
 export function setAdminToken(token: string) {
-  localStorage.setItem('adminJwtToken', token);
-}  
+  localStorage.setItem(ADMIN_JWT_TOKEN, token);
+}
+export function getUserToken(): string | null {
+  return localStorage.getItem(USER_JWT_TOKEN);
+}
+export function getAdminToken(): string | null {
+  return localStorage.getItem(ADMIN_JWT_TOKEN);
+}
+
