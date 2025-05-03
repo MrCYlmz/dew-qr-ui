@@ -29,3 +29,16 @@ export function getUserRole(): TokenRoleEnum | undefined {
   const decoded = getDecodedToken();
   return decoded?.roles || undefined;
 }
+
+export function clearUserToken() {
+  localStorage.removeItem('userJwtToken');
+}
+export function clearAdminToken() {
+  localStorage.removeItem('adminJwtToken');
+}
+export function setUserToken(token: string) {
+  localStorage.setItem('userJwtToken', token);
+}
+export function setAdminToken(token: string) {
+  localStorage.setItem('adminJwtToken', token);
+}  

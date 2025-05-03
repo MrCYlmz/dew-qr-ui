@@ -17,7 +17,7 @@ const routes = [
       { path: '/admin-dashboard', component: AdminPage },
     ],
   },
-  { name: 'login', path: '/user-login', component: UserLogin },
+  { name: 'user-login', path: '/user-login', component: UserLogin },
   { name: 'admin-login', path: '/admin-login', component: AdminLogin },
 ];
 
@@ -37,11 +37,14 @@ router.beforeEach((to, from, next) => {
           console.log('Access denied: User does not have admin role');
           next('/home'); // Redirect to home if not admin
         }
+      }
+      else {
+        console.log('Access denied: No token found');
+        next('/admin-login');
       };
-    } else {
-      console.log('Access denied: No token found');
-      next('/admin-login');
-    }
+    }else {
+      next();
+    } 
   } 
 );
 

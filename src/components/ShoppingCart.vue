@@ -4,6 +4,12 @@ import { useShoppingCart } from "../composables/useShoppingCart";
 import { usePlaceOrder } from '../api/user/mutations';
 import { getUserId } from '../utils/jwtUtils';
 
+defineProps({
+  isVisible: {
+    type: Boolean,
+    default: true,
+  },
+});
 const { shoppingCart, removeItem, clearCart,addItem } = useShoppingCart();
 const cartItems = computed(() => shoppingCart?.items);
 const hasItemsInCart = computed(() => cartItems.value.length > 0);
@@ -35,7 +41,18 @@ const checkout = () => {
 };
 </script>
 <template>
-  <v-card>
+      <v-menu v-if="isVisible" offset-y :close-on-content-click="false">
+      <template #activator="{ props }">
+        <v-badge
+          v-bind="props"
+          color="red"
+          dot
+          v-model="hasItemsInCart"
+        >
+          <v-icon class="shopping-cart-icon">mdi-cart</v-icon>
+        </v-badge>
+      </template>
+      <v-card>
     <v-card-title>Shopping Cart</v-card-title>
     <v-divider></v-divider>
     <v-list>
@@ -63,4 +80,6 @@ const checkout = () => {
       <v-btn color="primary" block @click="checkout">Checkout</v-btn>
     </v-card-actions>
   </v-card>
+    </v-menu>
+  
 </template>
