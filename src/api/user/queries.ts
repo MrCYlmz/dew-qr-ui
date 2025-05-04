@@ -29,7 +29,7 @@ export function useFetchImage(itemId: string) {
 }
 export function useFetchUserOrders(userId: string, status?: FetchUserOrdersStatusEnum) {
     return useQuery({
-        ...userOrdersKey,
+        queryKey: userOrdersKey(status),
         queryFn: async (): Promise<Order[]> => {
             console.log(userId, status);
             const response = await userApi.fetchUserOrders(userId, status, withUserAuthorization());
