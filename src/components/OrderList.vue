@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { Order } from "../api/openapi";
-import { defineProps } from "vue";
 
 defineProps<{
   title: string;

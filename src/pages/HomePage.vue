@@ -3,6 +3,7 @@ import { ItemCategoryEnum } from '../api/openapi';
 import ItemCard from '../components/ItemCard.vue';
 import {ref, computed} from 'vue';
 import {useFetchItems} from "../api/user/queries.ts";
+import OrderSummary from "../components/OrderSummary.vue";
 
 const {data: items, isLoading} = useFetchItems();
 const selectedCategory = ref('');
@@ -27,6 +28,9 @@ const filteredItems = computed(() =>
       </div>
     </div>
   </div>
+  <footer>
+    <OrderSummary />
+  </footer>
 </template>
 
 <style scoped lang="scss">
@@ -42,6 +46,13 @@ const filteredItems = computed(() =>
   .v-tabs {
     margin-bottom: 16px;
   }
+}
+footer {
+  position: fixed;
+  bottom: 5rem;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 </style>
