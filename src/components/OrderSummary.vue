@@ -1,15 +1,10 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useFetchUserOrders } from "../api/user/queries.ts";
-import { getUserId } from "../utils/jwtUtils.ts";
+import { getIdFromJWT } from "../utils/jwtUtils.ts";
 import OrderList from "./OrderList.vue";
-defineProps({
-  isVisible: {
-    type: Boolean,
-    default: true,
-  },
-});
-const userId = getUserId();
+
+const userId = getIdFromJWT();
 const { data: cancelledOrders } = useFetchUserOrders(userId!, "CANCELLED");
 const { data: completedOrders } = useFetchUserOrders(userId!, "COMPLETED");
 const { data: pendingOrders } = useFetchUserOrders(userId!, "PENDING");
@@ -29,7 +24,6 @@ const menuOpen = ref(false);
     v-model="menuOpen"
     :close-on-content-click="false"
     activator="parent"
-    v-if="isVisible"
     location="top"
     
   >

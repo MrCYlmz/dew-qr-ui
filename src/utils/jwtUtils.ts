@@ -7,11 +7,10 @@ export interface JwtPayload {
   iat: number; 
   exp: number; 
 }
-export const USER_JWT_TOKEN = 'userJwtToken';
-export const ADMIN_JWT_TOKEN = 'adminJwtToken';
+export const JWT_TOKEN = 'JwtToken';
 
 export function getDecodedToken(): JwtPayload | undefined {
-  const token = localStorage.getItem(USER_JWT_TOKEN);
+  const token = localStorage.getItem(JWT_TOKEN);
   if (!token) return undefined;
 
   try {
@@ -22,32 +21,24 @@ export function getDecodedToken(): JwtPayload | undefined {
   }
 }
 
-export function getUserId(): string | undefined {
+export function getIdFromJWT(): string | undefined {
   const decoded = getDecodedToken();
   return decoded?.sub || undefined;
 }
 
-export function getUserRole(): TokenRoleEnum | undefined {
+export function getRoleFromJWT(): TokenRoleEnum | undefined {
   const decoded = getDecodedToken();
   return decoded?.roles || undefined;
 }
 
-export function clearUserToken() {
-  localStorage.removeItem(USER_JWT_TOKEN);
+export function clearJWTToken() {
+  localStorage.removeItem(JWT_TOKEN);
 }
-export function clearAdminToken() {
-  localStorage.removeItem(ADMIN_JWT_TOKEN);
+
+export function setJWTToken(token: string) {
+  localStorage.setItem(JWT_TOKEN, token);
 }
-export function setUserToken(token: string) {
-  localStorage.setItem(USER_JWT_TOKEN, token);
-}
-export function setAdminToken(token: string) {
-  localStorage.setItem(ADMIN_JWT_TOKEN, token);
-}
-export function getUserToken(): string | null {
-  return localStorage.getItem(USER_JWT_TOKEN);
-}
-export function getAdminToken(): string | null {
-  return localStorage.getItem(ADMIN_JWT_TOKEN);
+export function getJWTToken(): string | null {
+  return localStorage.getItem(JWT_TOKEN);
 }
 

@@ -2,7 +2,7 @@
 import { computed } from 'vue';
 import { useShoppingCart } from "../composables/useShoppingCart";
 import { usePlaceOrder } from '../api/user/mutations';
-import { getUserId } from '../utils/jwtUtils';
+import { getIdFromJWT } from '../utils/jwtUtils';
 import type { Order } from '../api/openapi';
 
 defineProps({
@@ -21,7 +21,7 @@ const totalPrice = computed(() => {
 
 const payload = computed<Order>(() => {
   return {
-    userId: getUserId()!,
+    userId: getIdFromJWT()!,
     items: shoppingCart?.items!,
     totalPrice: totalPrice.value,
     orderedAt: new Date().toISOString(),

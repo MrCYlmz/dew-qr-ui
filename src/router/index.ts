@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import { getUserRole } from '../utils/jwtUtils';
+import { getRoleFromJWT } from '../utils/jwtUtils';
 // Ensure you install jwt-decode: npm install jwt-decode
 import HomePage from '../pages/HomePage.vue';
 import AdminPage from '../pages/AdminPage.vue';
@@ -27,15 +27,15 @@ const router = createRouter({
 });
 
 // Navigation guard to check roles
-router.beforeEach((to, from, next) => {
+router.beforeEach((to, _from, next) => {
   if (to.path === '/admin-dashboard') {
-    const role = getUserRole();
+    const role = getRoleFromJWT();
     if (role) {
-        if (getUserRole() === 'ADMIN') {
+        if (getRoleFromJWT() === 'ADMIN') {
           next(); // Allow access
         } else {
           console.log('Access denied: User does not have admin role');
-          next('/home'); // Redirect to home if not admin
+          next('/admin-login'); // Redirect to home if not admin
         }
       }
       else {
