@@ -11,7 +11,9 @@ export function usePlaceOrder() {
             return response.data
         },
         onSuccess: () => {
-            queryClient.invalidateQueries(userOrdersKey);
+            queryClient.invalidateQueries({
+                queryKey: userOrdersKey(),
+            });
         },
     });
 }
