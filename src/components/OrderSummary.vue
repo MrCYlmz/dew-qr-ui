@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
 import { useFetchUserOrders } from "../api/user/queries.ts";
-import type { Order } from "../api/openapi";
 import { getUserId } from "../utils/jwtUtils.ts";
 import OrderList from "./OrderList.vue";
-
-const show = ref(true);
+defineProps({
+  isVisible: {
+    type: Boolean,
+    default: true,
+  },
+});
 const userId = getUserId();
 const { data: cancelledOrders } = useFetchUserOrders(userId!, "CANCELLED");
 const { data: completedOrders } = useFetchUserOrders(userId!, "COMPLETED");
@@ -26,10 +29,12 @@ const menuOpen = ref(false);
     v-model="menuOpen"
     :close-on-content-click="false"
     activator="parent"
-    v-if="show"
+    v-if="isVisible"
+    location="top"
+    
   >
     <template #activator="{ props }">
-      <v-btn v-bind="props" color="primary">View Orders</v-btn>
+      <v-btn v-bind="props" block color="primary">View Orders</v-btn>
     </template>
     <v-card>
       <v-card-text>
@@ -38,7 +43,7 @@ const menuOpen = ref(false);
           <OrderList title="Pending Orders" :orders="pendingOrders" />
           <OrderList title="Completed Orders" :orders="completedOrders" />
 
-          <v-divider class="my-4"></v-divider>
+          <v-divider></v-divider>
           <strong>Total Price (Including All Orders): {{ totalPrice }}$</strong>
         </v-expansion-panels>
       </v-card-text>

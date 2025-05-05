@@ -13,10 +13,9 @@ defineProps<{
     <v-expansion-panel v-if="orders && orders.length > 0" :title="title">
       <v-expansion-panel-text>
         <v-list>
-          <v-list-item
+            <v-list-item
             v-for="order in orders || []"
             :key="order.id"
-            class="mb-2"
           >
             <v-list-item-content>
               <v-list-item-title
