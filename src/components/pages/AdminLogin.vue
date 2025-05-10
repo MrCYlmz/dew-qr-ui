@@ -10,7 +10,7 @@
   function login() {
       mutate(credentials.value, {
         onSuccess: () => {
-          router.push('/admin-dashboard'); 
+          router.push('/admin/order-manager'); 
         },
         onError: (error: { message: string }) => {
           alert('Login failed: ' + error.message);

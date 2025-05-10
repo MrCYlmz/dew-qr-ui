@@ -1,11 +1,13 @@
-<script setup lang="ts">
-import ShoppingCart from "../molecules/ShoppingCart.vue";
-</script>
+<script setup lang="ts"></script>
 
 <template>
   <header>
-    <p>My App</p>
-    <ShoppingCart />
+    <p>Admin Panel</p>
+    <nav>
+      <router-link to="/admin/create-item">Create Item</router-link>
+      <router-link to="/admin/order-manager">Order Manager</router-link>
+      <router-link to="/admin/update-item">Update Item</router-link>
+    </nav>
   </header>
   <main>
     <router-view />
@@ -23,16 +25,8 @@ header {
     text-decoration: none;
     color: #333;
   }
-
-  .shopping-cart-icon {
-    margin-left: auto;
-    cursor: pointer;
-    color: #333;
-  }
 }
-
 main {
   padding: 1rem;
-  justify-self: center;
 }
 </style>
