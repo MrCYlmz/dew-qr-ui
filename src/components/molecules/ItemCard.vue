@@ -21,19 +21,14 @@ const addToCart = () =>
 </script>
 <template>
   <v-card>
-    <v-img v-if="isFetched && imageUrl" :src="imageUrl" cover></v-img>
+    <v-img :src="isFetched && imageUrl ? imageUrl : undefined" cover> </v-img>
 
     <v-card-title>
       {{ item.name }}
     </v-card-title>
 
-    <v-card-subtitle>
-      {{ item.description || "Default subtitle" }}
-    </v-card-subtitle>
-
     <v-card-actions>
-      <v-btn variant="flat" color="primary" @click="addToCart">Order</v-btn>
-
+      <v-btn icon="mdi-plus" color="primary" @click="addToCart"></v-btn>
       <v-spacer></v-spacer>
 
       <v-btn
@@ -48,9 +43,23 @@ const addToCart = () =>
         <v-divider></v-divider>
 
         <v-card-text>
-          {{ item.description || "Default description" }}
+          {{ item.description || "Default subtitle" }}
+          <br />
+          {{
+            item.price
+              ? `Price: ${item.price.toFixed(2)}€`
+              : "Price not available"
+          }}
         </v-card-text>
       </div>
     </v-expand-transition>
   </v-card>
 </template>
+<style scoped lang="scss">
+.v-img {
+  height: 154px;
+  width: 154px;
+  object-fit: cover;
+  background-color: var(--v-primary-base);
+}
+</style>
