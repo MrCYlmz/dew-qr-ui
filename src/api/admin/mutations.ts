@@ -1,6 +1,6 @@
 import {useMutation, useQueryClient} from "@tanstack/vue-query";
-import {itemKey} from "../key.ts";
-import {adminApi ,type Item} from "../openapi";
+import {itemKey, orderKey} from "../key.ts";
+import {adminApi ,OrderStatusEnum,type Item} from "../openapi";
 import { withAdminAuthorization } from "../auth/utils.ts";
 export function useAddItem() {
     const queryClient = useQueryClient();
@@ -45,6 +45,17 @@ export function useAddImage() {
             await adminApi.uploadItemImage(itemId, file,withAdminAuthorization()),
         onSuccess: () => {
             queryClient.invalidateQueries(itemKey);
+        },
+    });
+}
+
+export function useChangeOrderStatus() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: async ({ orderId, status }: { orderId: string; status: OrderStatusEnum }) =>
+            await adminApi.changeOrderStatus(orderId, status, withAdminAuthorization()),
+        onSuccess: () => {
+            queryClient.invalidateQueries({queryKey: orderKey()});
         },
     });
 }
