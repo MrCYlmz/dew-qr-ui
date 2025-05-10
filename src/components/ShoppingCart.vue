@@ -3,7 +3,7 @@ import { computed } from 'vue';
 import { useShoppingCart } from "../composables/useShoppingCart";
 import { usePlaceOrder } from '../api/user/mutations';
 import { getIdFromJWT } from '../utils/jwtUtils';
-import type { Order } from '../api/openapi';
+import type { FrontendOrder } from '../api/openapi';
 
 defineProps({
   isVisible: {
@@ -19,9 +19,9 @@ const totalPrice = computed(() => {
   return cartItems.value.reduce((sum, item) => sum + item.price * item.quantity, 0);
 });
 
-const payload = computed<Order>(() => {
+const payload = computed<FrontendOrder>(() => {
   return {
-    userId: getIdFromJWT()!,
+    customer: { id: getIdFromJWT()! }, // Ensure this matches the OrderCustomer type
     items: shoppingCart?.items!,
     totalPrice: totalPrice.value,
     orderedAt: new Date().toISOString(),
