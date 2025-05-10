@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { useRoute } from "vue-router";
-import ShoppingCart from "../components/ShoppingCart.vue";
+import ShoppingCart from "../components/molecules/ShoppingCart.vue";
 
 const route = useRoute();
 const isAdminPath = computed(() => route.path === "/admin-dashboard");

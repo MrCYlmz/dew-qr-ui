@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { FrontendOrder, AdminOrder } from "../api/openapi";
+import type { FrontendOrder, AdminOrder } from "../../api/openapi";
 
 defineProps<{
   title: string;

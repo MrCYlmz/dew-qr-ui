@@ -3,7 +3,7 @@ import { ref, watch } from "vue";
 import rfdc from "rfdc";
 import { useFetchItems } from "../api/user/queries";
 import { type Item } from "../api/openapi";
-import ItemForm from "./ItemForm.vue";
+import ItemForm from "./molecules/ItemForm.vue";
 import { useItemSubmit } from "../composables/useItemSubmit";
 
 const clone = rfdc();

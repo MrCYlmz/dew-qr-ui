@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ItemCategoryEnum, type Item } from "../api/openapi";
+import { ItemCategoryEnum, type Item } from "../../api/openapi";
 
 const item = defineModel<Item>("item", {
     required: true,

@@ -3,7 +3,7 @@ import { ref, watch } from "vue";
 import { useFetchOrders } from "../api/admin/queries.ts";
 import { useChangeOrderStatus } from "../api/admin/mutations.ts";
 import { OrderStatusEnum } from "../api/openapi";
-import OrderList from "./OrderList.vue";
+import OrderList from "./molecules/OrderList.vue";
 
 const numberOfOrders = ref<number | undefined>(5);
 

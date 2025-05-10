@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Item } from "../api/openapi";
+import type { Item } from "../../api/openapi";
 import { computed, ref } from "vue";
-import { useFetchImage } from "../api/user/queries.ts";
-import { useShoppingCart } from "../composables/useShoppingCart";
+import { useFetchImage } from "../../api/user/queries.ts";
+import { useShoppingCart } from "../../composables/useShoppingCart.ts";
 
 const show = ref(false);
 const props = defineProps<{ item: Item }>();

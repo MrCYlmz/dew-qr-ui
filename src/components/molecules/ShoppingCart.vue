@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue';
-import { useShoppingCart } from "../composables/useShoppingCart";
-import { usePlaceOrder } from '../api/user/mutations';
-import { getIdFromJWT } from '../utils/jwtUtils';
-import type { FrontendOrder } from '../api/openapi';
+import { useShoppingCart } from "../../composables/useShoppingCart.ts";
+import { usePlaceOrder } from '../../api/user/mutations.ts';
+import { getIdFromJWT } from '../../utils/jwtUtils.ts';
+import type { FrontendOrder } from '../../api/openapi';
 
 defineProps({
   isVisible: {
