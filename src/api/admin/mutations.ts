@@ -48,6 +48,16 @@ export function useAddImage() {
         },
     });
 }
+export function useUpdateImage() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationFn: async ({itemId, file}: { itemId: string; file: File }) =>
+            await adminApi.updateItemImage(itemId, file,withAdminAuthorization()),
+        onSuccess: () => {
+            queryClient.invalidateQueries(itemKey);
+        },
+    });
+}
 
 export function useChangeOrderStatus() {
     const queryClient = useQueryClient();
