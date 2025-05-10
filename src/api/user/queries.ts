@@ -1,9 +1,7 @@
 import {useQuery} from "@tanstack/vue-query";
 import {itemKey, userOrdersKey} from "../key.ts";
-import {userApi, type Item, type Order } from "../openapi";
+import {OrderStatusEnum, userApi, type Item, type FrontendOrder } from "../openapi";
 import {withUserAuthorization} from "../auth/utils.ts";
-import type { FetchUserOrdersStatusEnum } from "@mrdew/dewqr-api-generator/src/gen/api.ts";
-
 export function useFetchItems() {
     return useQuery({
         ...itemKey,
@@ -27,10 +25,10 @@ export function useFetchImage(itemId: string) {
         },
     });
 }
-export function useFetchUserOrders(userId: string, status?: FetchUserOrdersStatusEnum) {
+export function useFetchUserOrders(userId: string, status?: OrderStatusEnum) {
     return useQuery({
         queryKey: userOrdersKey(status),
-        queryFn: async (): Promise<Order[]> => {
+        queryFn: async (): Promise<FrontendOrder[]> => {
             console.log(userId, status);
             const response = await userApi.fetchUserOrders(userId, status, withUserAuthorization());
             return response.data;
