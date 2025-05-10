@@ -1,11 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { getRoleFromJWT } from '../utils/jwtUtils';
 // Ensure you install jwt-decode: npm install jwt-decode
-import HomePage from '../pages/HomePage.vue';
-import AdminPage from '../pages/AdminPage.vue';
-import UserLogin from '../pages/UserLogin.vue';
-import MainLayout from '../layouts/MainLayout.vue';
-import AdminLogin from '../pages/AdminLogin.vue';
+import HomePage from '../components/pages/HomePage.vue';
+import AdminPage from '../components/pages/AdminPage.vue';
+import UserLogin from '../components/pages/UserLogin.vue';
+import MainLayout from '../components/layouts/MainLayout.vue';
+import AdminLogin from '../components/pages/AdminLogin.vue';
 
 const routes = [
   {
@@ -41,7 +41,7 @@ router.beforeEach((to, _from, next) => {
       else {
         console.log('Access denied: No token found');
         next('/admin-login');
-      };
+      }
     }else {
       next();
     } 

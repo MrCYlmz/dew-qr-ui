@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
-  import {useUserLogin} from "../api/auth/mutations.ts";
+  import {useUserLogin} from "../../api/auth/mutations.ts";
   
   const credentials = ref({ name: '', tableNumber: 0 });
   const router = useRouter();

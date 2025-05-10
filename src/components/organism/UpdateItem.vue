@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 import rfdc from "rfdc";
-import { useFetchItems } from "../api/user/queries";
-import { type Item } from "../api/openapi";
-import ItemForm from "./molecules/ItemForm.vue";
-import { useItemSubmit } from "../composables/useItemSubmit";
+import { useFetchItems } from "../../api/user/queries.ts";
+import { type Item } from "../../api/openapi";
+import ItemForm from "../molecules/ItemForm.vue";
+import { useItemSubmit } from "../../composables/useItemSubmit.ts";
 
 const clone = rfdc();
 

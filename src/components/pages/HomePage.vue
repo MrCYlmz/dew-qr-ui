@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { ItemCategoryEnum } from '../api/openapi';
-import ItemCard from '../components/molecules/ItemCard.vue';
+import { ItemCategoryEnum } from '../../api/openapi';
+import ItemCard from '../molecules/ItemCard.vue';
 import {ref, computed} from 'vue';
-import {useFetchItems} from "../api/user/queries.ts";
-import OrderSummary from "../components/OrderSummary.vue";
+import {useFetchItems} from "../../api/user/queries.ts";
+import OrderSummary from "../organism/OrderSummary.vue";
 
 const {data: items, isLoading} = useFetchItems();
 const selectedCategory = ref('');

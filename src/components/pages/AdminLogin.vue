@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import { ref } from 'vue';
   import { useRouter } from 'vue-router';
-  import { useAdminLogin } from "../api/auth/mutations.ts";
+  import { useAdminLogin } from "../../api/auth/mutations.ts";
 
   const credentials = ref({ username: '', password: '' });
   const router = useRouter();

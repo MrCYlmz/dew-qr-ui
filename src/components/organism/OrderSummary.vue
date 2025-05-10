@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref, computed } from "vue";
-import { useFetchUserOrders } from "../api/user/queries.ts";
-import { getIdFromJWT } from "../utils/jwtUtils.ts";
-import OrderList from "./molecules/OrderList.vue";
+import { useFetchUserOrders } from "../../api/user/queries.ts";
+import { getIdFromJWT } from "../../utils/jwtUtils.ts";
+import OrderList from "../molecules/OrderList.vue";
 
 const userId = getIdFromJWT();
 const { data: cancelledOrders } = useFetchUserOrders(userId!, "CANCELLED");
