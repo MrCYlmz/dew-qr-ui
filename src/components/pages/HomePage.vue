@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { ItemCategoryEnum } from '../../api/openapi';
-import ItemCard from '../molecules/ItemCard.vue';
-import { ref, computed } from 'vue';
+import { ItemCategoryEnum } from "../../api/openapi";
+import ItemCard from "../molecules/ItemCard.vue";
+import { ref, computed } from "vue";
 import { useFetchItems } from "../../api/user/queries.ts";
 
-const { data: items, isLoading } = useFetchItems();
-const selectedCategory = ref('');
+const { data: items } = useFetchItems();
+const selectedCategory = ref("");
 const categories = Object.values(ItemCategoryEnum);
 const filteredItems = computed(() =>
   selectedCategory.value
-    ? items.value?.filter(item => item.category === selectedCategory.value)
+    ? items.value?.filter((item) => item.category === selectedCategory.value)
     : items.value
 );
 </script>
@@ -41,6 +41,7 @@ const filteredItems = computed(() =>
 
   .v-tabs {
     margin-bottom: 16px;
+    justify-self: center;
   }
 }
 </style>

@@ -45,11 +45,7 @@ const addToCart = () =>
         <v-card-text>
           {{ item.description || "Default subtitle" }}
           <br />
-          {{
-            item.price
-              ? `Price: ${item.price.toFixed(2)}€`
-              : "Price not available"
-          }}
+          {{`Price: ${item.price.toFixed(2)}€`}}
         </v-card-text>
       </div>
     </v-expand-transition>
