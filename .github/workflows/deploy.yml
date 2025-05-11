@@ -20,6 +20,10 @@ jobs:
       with:
         node-version: 18
 
+    # Configure npm to use GitHub token for private packages
+    - name: Configure npm for GitHub Packages
+      run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
+
     # Install the specific version of the API generator package
     - name: Install API generator package
       run: npm install @mrcylmz/dewqr-api-generator@1.0.0-1746991654300
