@@ -1,4 +1,4 @@
-import {Configuration, UserApi, AdminApi, AuthApi} from '@mrdew/dewqr-api-generator/src/gen';
+import {Configuration, UserApi, AdminApi, AuthApi} from '@mrcylmz/dewqr-api-generator/dist/gen';
 import router from '../../router';
 import { clearJWTToken } from '../../utils/jwtUtils';
 
@@ -31,7 +31,7 @@ const adminConfig = new Configuration({
     },
 });
 
-export * from '@mrdew/dewqr-api-generator/src/gen/models'
+export * from '@mrcylmz/dewqr-api-generator/dist/gen/models'
 export type {Configuration}
 export const userApi = new UserApi(userConfig);
 export const adminApi = new AdminApi(adminConfig);
