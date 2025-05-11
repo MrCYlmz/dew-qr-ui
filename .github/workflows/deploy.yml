@@ -1,19 +1,9 @@
-name: Deploy Frontend and Jekyll Site
+name: Deploy Frontend and Backend
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
 
 jobs:
   build-and-deploy:
@@ -54,16 +44,15 @@ jobs:
         git config --global user.email "celal63159@gmail.com"
         git config --global user.name "${{ github.actor }}"
 
-    # Deploy the frontend
+    # Deploy the frontend (replace with your hosting platform's deployment method)
     - name: Deploy frontend
       env:
         GIT_USER: ${{ github.actor }}
         GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
+        # Example: Deploy to GitHub Pages
         npm install -g gh-pages
         gh-pages -d dist -r "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
-
-    # Build Jekyll site
     - name: Setup Pages
       uses: actions/configure-pages@v5
     - name: Build with Jekyll
