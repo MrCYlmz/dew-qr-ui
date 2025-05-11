@@ -40,14 +40,14 @@ jobs:
         GIT_USER: ${{ secrets.GITHUB_ACTOR }}
       run: |
         git config --global user.email "celal63159@gmail.com"
-        git config --global user.name "${{ secrets.GITHUB_ACTOR }}"
+        git config --global user.name "${{ github.actor }}"
 
     # Deploy the frontend (replace with your hosting platform's deployment method)
     - name: Deploy frontend
       env:
-        GIT_USER: ${{ secrets.GITHUB_ACTOR }}
+        GIT_USER: ${{ github.actor }}
         GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         # Example: Deploy to GitHub Pages
         npm install -g gh-pages
-        gh-pages -d dist -r "https://${{ secrets.GITHUB_ACTOR }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+        gh-pages -d dist -r "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
