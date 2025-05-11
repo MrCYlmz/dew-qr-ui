@@ -39,7 +39,7 @@ const isFormValid = ref();
           <v-text-field
             v-model="item.name"
             label="Name"
-            :rules="[required maxLength(50)]"
+            :rules="[required, maxLength(50)]"
           ></v-text-field>
           
           <v-text-field
