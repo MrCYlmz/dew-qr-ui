@@ -34,15 +34,12 @@ jobs:
         DEW_QR_API_URL: "https://your-production-api-url.com"
       run: npm run build
 
-    # Configure Git user identity for gh-pages
-    - name: Configure Git user
-      run: |
-        git config --global user.email "celal63159@gmail.com"
-        git config --global user.name "MrCYlmz"
-
     # Deploy the frontend (replace with your hosting platform's deployment method)
     - name: Deploy frontend
+      env:
+        GIT_USER: ${{ secrets.GITHUB_ACTOR }}
+        GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
         # Example: Deploy to GitHub Pages
         npm install -g gh-pages
-        gh-pages -d dist
+        gh-pages -d dist -r "https://${{ secrets.GITHUB_ACTOR }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
