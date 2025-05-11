@@ -7,4 +7,5 @@ export default defineConfig({
   server: {
     port: 8081,
   },
+  base: '/dew-qr-ui/' // Replace 'dew-qr-ui' with your repository name
 })
