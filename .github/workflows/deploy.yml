@@ -20,21 +20,22 @@ jobs:
       with:
         node-version: 18
 
+    # Install the specific version of the API generator package
+    - name: Install API generator package
+      run: npm install @mrcylmz/dewqr-api-generator@1.0.0-1746991654300
+
     # Install dependencies for frontend
     - name: Install frontend dependencies
-      working-directory: ./dew-qr-ui
       run: npm install
 
     # Build the frontend
     - name: Build frontend
-      working-directory: ./dew-qr-ui
       env:
         DEW_QR_API_URL: "https://your-production-api-url.com"
       run: npm run build
 
     # Deploy the frontend (replace with your hosting platform's deployment method)
     - name: Deploy frontend
-      working-directory: ./dew-qr-ui
       run: |
         # Example: Deploy to GitHub Pages
         npm install -g gh-pages
