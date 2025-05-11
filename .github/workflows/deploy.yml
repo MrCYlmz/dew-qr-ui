@@ -24,10 +24,6 @@ jobs:
     - name: Configure npm for GitHub Packages
       run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
 
-    # Install the specific version of the API generator package
-    - name: Install API generator package
-      run: npm install @mrcylmz/dewqr-api-generator@1.0.0-1746991654300
-
     # Install dependencies for frontend
     - name: Install frontend dependencies
       run: npm install
