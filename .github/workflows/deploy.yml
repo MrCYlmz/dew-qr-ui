@@ -1,14 +1,26 @@
-name: Deploy Frontend and Backend
+name: Deploy Frontend and Jekyll Site
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
+    environment:
+        name: github-pages
+        url: ${{ steps.deployment.outputs.page_url }}
     steps:
     # Checkout the repository
     - name: Checkout code
@@ -42,12 +54,27 @@ jobs:
         git config --global user.email "celal63159@gmail.com"
         git config --global user.name "${{ github.actor }}"
 
-    # Deploy the frontend (replace with your hosting platform's deployment method)
+    # Deploy the frontend
     - name: Deploy frontend
       env:
         GIT_USER: ${{ github.actor }}
         GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: |
-        # Example: Deploy to GitHub Pages
         npm install -g gh-pages
         gh-pages -d dist -r "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
+
+    # Build Jekyll site
+    - name: Setup Pages
+      uses: actions/configure-pages@v5
+    - name: Build with Jekyll
+      uses: actions/jekyll-build-pages@v1
+      with:
+        source: ./
+        destination: ./_site
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+
+    # Deploy Jekyll site
+    - name: Deploy Jekyll site
+      id: deployment
+      uses: actions/deploy-pages@v4
