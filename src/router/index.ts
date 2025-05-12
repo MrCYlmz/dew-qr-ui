@@ -12,7 +12,7 @@ import UpdateItemPage from '../components/pages/admin/UpdateItemPage.vue';
 const routes = [
   {
     path: '/',
-    redirect: '/home',
+    redirect: '/user-login',
     component: MainLayout,
     children: [
       { path: '/home', component: HomePage },
