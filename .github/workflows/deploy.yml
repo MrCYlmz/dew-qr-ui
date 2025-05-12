@@ -41,40 +41,19 @@ jobs:
         DEW_QR_API_URL: "http://your-production-api-url.com"
       run: npm run build
 
-    - name: Configure Git user
-      env:
-        GIT_USER: ${{ secrets.GITHUB_ACTOR }}
-      run: |
-        git config --global user.email "celal63159@gmail.com"
-        git config --global user.name "${{ github.actor }}"
-
-    - name: Deploy frontend
-      env:
-        GIT_USER: ${{ github.actor }}
-        GIT_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        # Example: Deploy to GitHub Pages
-        npm install -g gh-pages
-        gh-pages -d dist -r "https://${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git"
-    - name: Upload artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: production-files
-        path: ./dist
-
   deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
+    name: Deploy
     needs: build
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
     steps:
       - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: production-files
           path: ./dist
+
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
         with:
