@@ -19,7 +19,7 @@ export default defineConfig({
       output: {
         entryFileNames: assetInfo => {
           if (assetInfo.name === 'notfound') return '404.html'
-          return '[name].js'
+          return '[name].ts'
         }
       }
     }
