@@ -16,12 +16,6 @@ export default defineConfig({
         // This will copy index.html as 404.html
         notfound: resolve(__dirname, 'index.html'),
       },
-      output: {
-        entryFileNames: assetInfo => {
-          if (assetInfo.name === 'notfound') return '404.html'
-          return '[name].[ext]'
-        }
-      }
     }
   }
 })
