@@ -23,7 +23,7 @@ const isFormValid = ref();
 function login() {
   mutate(credentials.value, {
     onSuccess: () => {
-      router.push("/");
+      router.push("/home");
     },
     onError: (error: { message: string }) => {
       alert("Login failed: " + error.message);
