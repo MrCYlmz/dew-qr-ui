@@ -1,1 +1,0 @@
-export const DEW_QR_API_URL = process.env.DEW_QR_API_URL || "http://localhost:8080";
