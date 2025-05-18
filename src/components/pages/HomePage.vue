@@ -23,7 +23,7 @@ const filteredItems = computed(() =>
     </v-tabs>
     <div class="items">
       <div v-for="item in filteredItems" :key="item.id">
-        <ItemCard :item="item" />
+        <ItemCard v-if="item.available" :item="item" />
       </div>
     </div>
   </div>

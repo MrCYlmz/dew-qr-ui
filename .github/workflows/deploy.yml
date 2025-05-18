@@ -1,41 +1,59 @@
-name: Deploy Frontend and Backend
+name: Deploy Frontend
 
 on:
   push:
     branches:
       - main
+  workflow_dispatch:
+
+permissions:
+  packages: read
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
-
+    
     steps:
-    # Checkout the repository
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
-    # Set up Node.js for frontend
     - name: Set up Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v4
       with:
-        node-version: 18
+        node-version: lts/*
+        cache: 'npm'
 
-    # Install dependencies for frontend
+    - name: Configure npm for GitHub Packages
+      run: echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > ~/.npmrc
+
     - name: Install frontend dependencies
-      working-directory: ./dew-qr-ui
-      run: npm install
+      run: npm ci
 
-    # Build the frontend
     - name: Build frontend
-      working-directory: ./dew-qr-ui
       env:
-        DEW_QR_API_URL: "https://your-production-api-url.com"
+        DEW_QR_API_URL: "http://your-production-api-url.com"
       run: npm run build
+      
+    - name: Setup Pages
+      uses: actions/configure-pages@v5
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v3
+      with:
+        # Upload dist folder
+        path: './dist'
 
-    # Deploy the frontend (replace with your hosting platform's deployment method)
-    - name: Deploy frontend
-      working-directory: ./dew-qr-ui
-      run: |
-        # Example: Deploy to GitHub Pages
-        npm install -g gh-pages
-        gh-pages -d dist
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    name: Deploy
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
