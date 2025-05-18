@@ -12,7 +12,7 @@ import UpdateItemPage from '../components/pages/admin/UpdateItemPage.vue';
 const routes = [
   {
     path: '/',
-    redirect: '/home',
+    redirect: '/user-login',
     component: MainLayout,
     children: [
       { path: '/home', component: HomePage },
@@ -41,7 +41,7 @@ const routes = [
 ];
 
 const router = createRouter({
-  history: createWebHistory(),
+  history: createWebHistory('/dew-qr-ui/'),
   routes,
 });
 
