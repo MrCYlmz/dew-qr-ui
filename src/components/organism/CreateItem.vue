@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import { type Item } from "../../api/openapi";
-import ItemForm from "../molecules/ItemForm.vue";
+import ItemFormDialog from "../molecules/ItemFormDialog.vue";
 import { useItemSubmit } from "../../composables/useItemSubmit.ts";
 
 const item = ref<Item>({
@@ -21,5 +21,5 @@ const submitForm = async () => {
 </script>
 
 <template>
-  <ItemForm v-model:item="item" v-model:imageData="imageData" @submit="submitForm" />
+  <ItemFormDialog icon="mdi-plus" tooltip="Create new item" v-model:item="item" v-model:imageData="imageData" @submit="submitForm" />
 </template>

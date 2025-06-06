@@ -17,7 +17,7 @@ setInterval(() => {
   refetchCancelledOrders();
   refetchCompletedOrders();
   refetchPendingOrders();
-}, 300000);
+}, 3000);
 
 watch(
   () => [pendingOrders.value, completedOrders.value, cancelledOrders.value],
@@ -49,7 +49,7 @@ function showAllCancelledOrders() {
 </script>
 
 <template>
-  <v-expansion-panels>
+  
     <OrderList
       title="Pending Orders"
       :orders="pendingOrders"
@@ -75,5 +75,4 @@ function showAllCancelledOrders() {
         <v-btn block color="primary" @click="showAllCancelledOrders">Show All Orders</v-btn>
       </template>
     </OrderList>
-  </v-expansion-panels>
 </template>
