@@ -1,48 +1,48 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
-import rfdc from "rfdc";
-import { useFetchItems } from "../../api/user/queries.ts";
 import { type Item } from "../../api/openapi";
-import ItemForm from "../molecules/ItemForm.vue";
+import ItemFormDialog from "../molecules/ItemFormDialog.vue";
 import { useItemSubmit } from "../../composables/useItemSubmit.ts";
+import rfdc from "rfdc";
 
+const props = defineProps<{
+  selectedItem?: Item
+  disabled?: boolean;
+}>();
 const clone = rfdc();
 
-const selectedItemId = ref<string | null>(null);
 const clonedItem = ref<Item>({} as Item);
 const imageData = ref<File>();
-
-const { data: items } = useFetchItems();
 const { handleSubmit } = useItemSubmit();
-
-watch(selectedItemId, (id) => {
-  if (id) {
-    const item = items.value?.find((i: Item) => i.id === id);
-    clonedItem.value = item ? clone(item) : {} as Item;
-  }
-});
-
+watch(
+  () => props.selectedItem,
+  (newValue) => {
+    if (newValue) {
+      clonedItem.value = clone(newValue);
+    }
+  },
+  { immediate: true }
+);
 const submitForm = async () => {
-  await handleSubmit({ item: clonedItem.value, imageData: imageData.value, isUpdate: true });
+  if(clonedItem.value) {
+    await handleSubmit({ item: clonedItem.value, imageData: imageData.value, isUpdate: true });
+  }
+};
+const resetForm = () => {
+  clonedItem.value = props.selectedItem ? clone(props.selectedItem) : ({} as Item);
+  imageData.value = undefined;
 };
 </script>
 
 <template>
-  <v-card>
-    <v-card-text>
-      <v-select
-        v-model="selectedItemId"
-        :items="items?.map(item => ({ text: item.name, value: item.id }))"
-        label="Select Item"
-        item-text="text"
-        item-value="value"
-      ></v-select>
-    </v-card-text>
-    <v-divider></v-divider>
-    <ItemForm
+
+    <ItemFormDialog
+      icon="mdi-pencil"
+      tooltip="Update item"
       v-model:item="clonedItem"
       v-model:imageData="imageData"
+      :disabled="disabled"
       @submit="submitForm"
+      @reset="resetForm"
     />
-  </v-card>
 </template>
