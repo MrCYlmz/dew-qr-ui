@@ -5,9 +5,7 @@ import UserLogin from '../components/pages/UserLogin.vue';
 import AdminLogin from '../components/pages/AdminLogin.vue';
 import MainLayout from '../components/layouts/MainLayout.vue';
 import AdminLayout from '../components/layouts/AdminLayout.vue';
-import CreateItemPage from '../components/pages/admin/CreateItemPage.vue';
 import AdminOrderManagerPage from '../components/pages/admin/AdminOrderManagerPage.vue';
-import UpdateItemPage from '../components/pages/admin/UpdateItemPage.vue';
 
 const routes = [
   {
@@ -22,9 +20,7 @@ const routes = [
     path: '/admin',
     component: AdminLayout,
     children: [
-      { path: 'create-item', component: CreateItemPage },
       { path: 'order-manager', component: AdminOrderManagerPage },
-      { path: 'update-item', component: UpdateItemPage },
     ],
     beforeEnter: (_to: any, _from: any, next: (arg?: string) => void) => {
       const role = getRoleFromJWT();
