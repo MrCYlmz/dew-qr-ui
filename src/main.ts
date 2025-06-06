@@ -2,7 +2,7 @@ import { createApp, reactive } from 'vue'
 import './style.css'
 import App from './App.vue'
 import { VueQueryPlugin } from '@tanstack/vue-query'
-import vuetify from './plugins/vuetify' // path to vuetify export
+import vuetify from './plugins/vuetify'
 import router from './router'
 
 
