@@ -1,14 +1,9 @@
 <script setup lang="ts">
-import { computed, defineProps, defineEmits } from "vue";
+import { computed, ref } from "vue";
 import { useFetchUserOrders } from "../../api/user/queries.ts";
 import { getIdFromJWT } from "../../utils/jwtUtils.ts";
 import OrderList from "../molecules/OrderList.vue";
-
-const props = defineProps({
-  expanded: Boolean,
-});
-
-const emit = defineEmits(["toggle"]);
+import ShoppingCart from "../molecules/ShoppingCart.vue";
 
 const userId = getIdFromJWT();
 const { data: cancelledOrders } = useFetchUserOrders(userId!, "CANCELLED");
@@ -21,53 +16,38 @@ const totalPrice = computed(() =>
     0
   )
 );
+const expanded = ref(false);
 </script>
 
 <template>
-  <div class="order-summary" :class="{ expanded: props.expanded }" color="primary">
-    <div class="summary-header">
-      <v-btn block color="primary" @click="$emit('toggle')">
-        {{ props.expanded ? "Collapse" : "Expand" }}
-      </v-btn>
-      <strong>Total Price: {{ totalPrice }}$</strong>
-    </div>
-    <div v-if="props.expanded" class="summary-details">
-      <v-expansion-panels>
-        <OrderList title="Cancelled Orders" :orders="cancelledOrders" />
-        <OrderList title="Pending Orders" :orders="pendingOrders" />
-        <OrderList title="Completed Orders" :orders="completedOrders" />
-        <v-divider></v-divider>
-      </v-expansion-panels>
-    </div>
-  </div>
+  <v-app-bar color="primary">
+    <v-app-bar-nav-icon
+      variant="text"
+      @click.stop="expanded = !expanded"
+    ></v-app-bar-nav-icon>
+
+    <v-toolbar-title>My files</v-toolbar-title>
+
+    <ShoppingCart />
+  </v-app-bar>
+
+  <v-navigation-drawer v-model="expanded" location="left" temporary>
+    <v-list>
+      <v-list-item>
+        <v-list-item-title class="text-h6">Order Summary</v-list-item-title>
+      </v-list-item>
+      <v-list-item>
+          Total Price: {{ totalPrice }}$
+      </v-list-item>
+      <v-list-item>
+        <v-expansion-panels variant="accordion">
+          <OrderList title="Cancelled Orders" :orders="cancelledOrders" />
+          <OrderList title="Pending Orders" :orders="pendingOrders" />
+          <OrderList title="Completed Orders" :orders="completedOrders" />
+        </v-expansion-panels>
+      </v-list-item>
+    </v-list>
+  </v-navigation-drawer>
 </template>
 
-<style scoped lang="scss">
-.order-summary {
-  height: 100%;
-  padding: 1rem;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  background-color: var(--background-color);
-
-  &.expanded {
-    padding: 1.5rem;
-  }
-
-  .summary-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
-  }
-
-  .summary-details {
-    margin-top: 1rem;
-  }
-
-  &.expanded .summary-header {
-    align-items: flex-start;
-  }
-}
-</style>
+<style scoped lang="scss"></style>
