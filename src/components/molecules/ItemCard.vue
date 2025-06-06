@@ -28,7 +28,7 @@ const addToCart = () =>
     </v-card-title>
 
     <v-card-actions>
-      <v-btn icon="mdi-plus" color="primary" @click="addToCart"></v-btn>
+      <v-btn icon="mdi-cart-plus" color="primary" @click="addToCart"></v-btn>
       <v-spacer></v-spacer>
 
       <v-btn
