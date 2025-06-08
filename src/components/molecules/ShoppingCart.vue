@@ -11,7 +11,7 @@ defineProps({
     default: true,
   },
 });
-const { shoppingCart, removeItem, clearCart,addItem } = useShoppingCart();
+const { shoppingCart, decrementItemQuantity, clearCart,incrementItemQuantity } = useShoppingCart();
 const cartItems = computed(() => shoppingCart?.items);
 const hasItemsInCart = computed(() => cartItems.value.length > 0);
 
@@ -46,6 +46,7 @@ const checkout = () => {
 <template>
       <v-menu v-if="isVisible" offset-y :close-on-content-click="false">
       <template #activator="{ props }">
+         <v-btn stacked>
         <v-badge
           v-bind="props"
           color="red"
@@ -54,6 +55,7 @@ const checkout = () => {
         >
           <v-icon class="shopping-cart-icon">mdi-cart</v-icon>
         </v-badge>
+        </v-btn>
       </template>
       <v-card>
     <v-card-title>Shopping Cart</v-card-title>
@@ -66,10 +68,10 @@ const checkout = () => {
         <v-list-item-title>{{ item.name }}</v-list-item-title>
         <v-list-item-subtitle>Quantity: {{ item.quantity }}</v-list-item-subtitle>
         <v-list-item-subtitle>Price: {{ item.price * item.quantity }} $</v-list-item-subtitle>
-        <v-btn icon @click="removeItem(item.itemId)">
+        <v-btn icon @click="decrementItemQuantity(item.itemId)">
           <v-icon>mdi-minus</v-icon>
         </v-btn>
-        <v-btn icon @click="addItem(item)">
+        <v-btn icon @click="incrementItemQuantity(item)">
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </v-list-item>

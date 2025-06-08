@@ -10,10 +10,10 @@ const { data: imageBlob, isFetched } = useFetchImage(props.item.id!);
 const imageUrl = computed(() =>
   imageBlob.value ? URL.createObjectURL(imageBlob.value) : undefined
 );
-const { addItem } = useShoppingCart();
+const { incrementItemQuantity } = useShoppingCart();
 
 const addToCart = () =>
-  addItem({
+  incrementItemQuantity({
     itemId: props.item.id!,
     name: props.item.name!,
     price: props.item.price,

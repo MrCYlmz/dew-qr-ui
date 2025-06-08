@@ -6,7 +6,7 @@ export function useShoppingCart() {
     throw new Error('ShoppingCart is not provided');
   }
 
-  const addItem = (item: { itemId: string; name: string; price: number }) => {
+  const incrementItemQuantity = (item: { itemId: string; name: string; price: number }) => {
     const existingItem = shoppingCart.items.find(cartItem => cartItem.itemId === item.itemId);
     if (existingItem) {
       existingItem.quantity++;
@@ -15,10 +15,15 @@ export function useShoppingCart() {
     }
   };
 
-  const removeItem = (itemId: string) => {
+  const decrementItemQuantity = (itemId: string) => {
     const index = shoppingCart.items.findIndex(cartItem => cartItem.itemId === itemId);
     if (index !== -1) {
-      shoppingCart.items.splice(index, 1);
+      const item = shoppingCart.items[index];
+      if (item.quantity > 1) {
+        item.quantity--;
+      } else {
+        shoppingCart.items.splice(index, 1);
+      }
     }
   };
 
@@ -28,8 +33,8 @@ export function useShoppingCart() {
 
   return {
     shoppingCart,
-    addItem,
-    removeItem,
+    incrementItemQuantity,
+    decrementItemQuantity,
     clearCart,
   };
 }
