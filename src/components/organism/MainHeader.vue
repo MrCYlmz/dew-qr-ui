@@ -26,7 +26,7 @@ const expanded = ref(false);
       @click.stop="expanded = !expanded"
     ></v-app-bar-nav-icon>
 
-    <v-toolbar-title>My files</v-toolbar-title>
+    <v-toolbar-title>My App</v-toolbar-title>
 
     <ShoppingCart />
   </v-app-bar>
