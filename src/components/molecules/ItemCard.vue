@@ -1,15 +1,11 @@
 <script setup lang="ts">
 import type { Item } from "../../api/openapi";
-import { computed, ref } from "vue";
-import { useFetchImage } from "../../api/user/queries.ts";
+import { ref } from "vue";
 import { useShoppingCart } from "../../composables/useShoppingCart.ts";
+import DisplayImage from "./DisplayImage.vue";
 
 const show = ref(false);
 const props = defineProps<{ item: Item }>();
-const { data: imageBlob, isFetched } = useFetchImage(props.item.id!);
-const imageUrl = computed(() =>
-  imageBlob.value ? URL.createObjectURL(imageBlob.value) : undefined
-);
 const { incrementItemQuantity } = useShoppingCart();
 
 const addToCart = () =>
@@ -21,8 +17,9 @@ const addToCart = () =>
 </script>
 <template>
   <v-card>
-    <v-img :src="isFetched && imageUrl ? imageUrl : undefined" cover> </v-img>
-
+    <DisplayImage
+      :id="item.id"
+    ></DisplayImage>
     <v-card-title>
       {{ item.name }}
     </v-card-title>
@@ -51,11 +48,3 @@ const addToCart = () =>
     </v-expand-transition>
   </v-card>
 </template>
-<style scoped lang="scss">
-.v-img {
-  height: 154px;
-  width: 154px;
-  object-fit: cover;
-  background-color: var(--v-primary-base);
-}
-</style>

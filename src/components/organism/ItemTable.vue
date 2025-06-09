@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import { useFetchItems, useFetchImage } from "../../api/user/queries.ts";
+import { useFetchItems } from "../../api/user/queries.ts";
 import UpdateItem from "./UpdateItem.vue";
 import CreateItem from "./CreateItem.vue";
-import { computed, ref, watchEffect } from "vue";
+import DisplayImage from "../molecules/DisplayImage.vue";
+import { computed, ref } from "vue";
 import type { Item } from "@mrcylmz/dewqr-api-generator";
 
 const { data: items } = useFetchItems();
@@ -24,22 +25,6 @@ const getColor = (value: boolean) => {
   return value ? "success" : "warning";
 };
 
-// Helper to cache image URLs per item
-const imageUrls = ref<Record<string, string>>({});
-
-watchEffect(() => {
-  if (!items.value) return;
-  items.value.forEach((item) => {
-    if (item.id && !(item.id in imageUrls.value)) {
-      const { data: imageBlob, isFetched } = useFetchImage(item.id);
-      watchEffect(() => {
-        if (isFetched.value && imageBlob.value) {
-          imageUrls.value[item.id] = URL.createObjectURL(imageBlob.value);
-        }
-      });
-    }
-  });
-});
 </script>
 
 <template>
@@ -77,14 +62,9 @@ watchEffect(() => {
           {{ `${value.toFixed(2)}€` }}
         </template>
         <template v-slot:item.image="{ item }">
-          <v-img
-            v-if="imageUrls[item.id]"
-            :src="imageUrls[item.id]"
-            height="48"
-            width="48"
-            cover
-          />
-          <span v-else>—</span>
+          <DisplayImage
+            :id="item.id"
+          ></DisplayImage>
         </template>
       </v-data-table>
     </v-expansion-panel-text>
