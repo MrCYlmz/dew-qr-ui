@@ -25,7 +25,7 @@ watch(
 const isFormUpdated = computed(() => {
   return JSON.stringify(clonedItem.value) !== JSON.stringify(props.selectedItem);
 });
-const isFormDisabled = computed(() => !isFormUpdated && !imageData.value);
+const isFormDisabled = computed(() => !isFormUpdated.value && !imageData.value);
 
 const submitForm = async () => {
   if (isFormUpdated.value)

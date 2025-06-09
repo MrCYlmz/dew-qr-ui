@@ -4,9 +4,7 @@
   <header>
     <p>Admin Panel</p>
     <nav>
-      <router-link to="/admin/create-item">Create Item</router-link>
       <router-link to="/admin/order-manager">Order Manager</router-link>
-      <router-link to="/admin/update-item">Update Item</router-link>
     </nav>
   </header>
   <main>
