@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import { type Item } from "../../api/openapi";
 import ItemFormDialog from "../molecules/ItemFormDialog.vue";
 import { useItemSubmit } from "../../composables/useItemSubmit.ts";
@@ -7,13 +7,12 @@ import rfdc from "rfdc";
 
 const props = defineProps<{
   selectedItem?: Item
-  disabled?: boolean;
+  disabled: boolean;
 }>();
 const clone = rfdc();
-
 const clonedItem = ref<Item>({} as Item);
 const imageData = ref<File>();
-const { handleSubmit } = useItemSubmit();
+const { updateImageMutation, updateItemWithImage } = useItemSubmit();
 watch(
   () => props.selectedItem,
   (newValue) => {
@@ -23,10 +22,21 @@ watch(
   },
   { immediate: true }
 );
+const isFormUpdated = computed(() => {
+  return JSON.stringify(clonedItem.value) !== JSON.stringify(props.selectedItem);
+});
+const isFormDisabled = computed(() => !isFormUpdated && !imageData.value);
+
 const submitForm = async () => {
-  if(clonedItem.value) {
-    await handleSubmit({ item: clonedItem.value, imageData: imageData.value, isUpdate: true });
+  if (isFormUpdated.value)
+    await updateItemWithImage({ item: clonedItem.value, imageData: imageData.value });
+  else{
+  if (imageData.value){
+    await updateImageMutation({ itemId: clonedItem.value.id, imageData: imageData.value });
   }
+  else  return;
+  }
+  resetForm();
 };
 const resetForm = () => {
   clonedItem.value = props.selectedItem ? clone(props.selectedItem) : ({} as Item);
@@ -42,6 +52,7 @@ const resetForm = () => {
       v-model:item="clonedItem"
       v-model:imageData="imageData"
       :disabled="disabled"
+      :isFormDisabled="isFormDisabled"
       @submit="submitForm"
       @reset="resetForm"
     />
