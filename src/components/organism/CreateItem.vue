@@ -13,10 +13,10 @@ const item = ref<Item>({
 } as Item);
 const imageData = ref<File | undefined>();
 
-const { handleSubmit } = useItemSubmit();
+const { createItemWithImage } = useItemSubmit();
 
 const submitForm = async () => {
-  await handleSubmit({ item: item.value, imageData: imageData.value });
+  await createItemWithImage({ item: item.value, imageData: imageData.value });
 };
 </script>
 

@@ -5,7 +5,8 @@ import { rules } from "../../utils/rules";
 defineProps<{
   icon: string,
   tooltip: string
-  disabled?: boolean
+  disabled?: boolean,
+  isFormDisabled?: boolean
 }>();
 const item = defineModel<Item>("item", {
     required: true,
@@ -100,7 +101,7 @@ const isFormValid = ref();
             type="submit"
             variant="flat"
             color="primary"
-            :disabled="!isFormValid"
+            :disabled="!isFormValid || isFormDisabled"
           >
             Add Item
           </v-btn>
