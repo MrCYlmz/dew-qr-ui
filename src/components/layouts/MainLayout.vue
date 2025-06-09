@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import OrderSummary from "../organism/OrderSummary.vue";
+import MainHeader from "../organism/MainHeader.vue";
 </script>
 
 <template>
     <v-layout>
-      <OrderSummary />
+      <MainHeader />
       <v-main>
         <router-view />
       </v-main>
