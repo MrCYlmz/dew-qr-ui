@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import AdminOrderManager from '../../organism/AdminOrderManager.vue';
-import ItemTable from '../../organism/ItemTable.vue';
+import AdminOrderManager from '../organism/AdminOrderManager.vue';
+import ItemTable from '../organism/ItemTable.vue';
 const panels = ref([0])
 </script>
 

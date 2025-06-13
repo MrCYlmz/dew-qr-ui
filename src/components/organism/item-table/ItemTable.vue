@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useFetchItems } from "../../api/user/queries.ts";
+import { useFetchItems } from "../../../api/user/queries.ts";
 import UpdateItem from "./UpdateItem.vue";
 import CreateItem from "./CreateItem.vue";
 import DisplayImage from "../molecules/DisplayImage.vue";

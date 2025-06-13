@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { type Item } from "../../api/openapi";
-import ItemFormDialog from "../molecules/ItemFormDialog.vue";
-import { useItemSubmit } from "../../composables/useItemSubmit.ts";
+import { type Item } from "../../../api/openapi/index.ts";
+import ItemFormDialog from "../../molecules/ItemFormDialog.vue";
+import { useItemSubmit } from "../../../composables/useItemSubmit.ts";
 
 const item = ref<Item>({
   name: "",
