@@ -17,7 +17,7 @@ setInterval(() => {
   refetchCancelledOrders();
   refetchCompletedOrders();
   refetchPendingOrders();
-}, 3000);
+}, 5000);
 
 watch(
   () => [pendingOrders.value, completedOrders.value, cancelledOrders.value],

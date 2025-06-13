@@ -4,12 +4,18 @@ import { useFetchUserOrders } from "../../api/user/queries.ts";
 import { getIdFromJWT } from "../../utils/jwtUtils.ts";
 import OrderList from "../molecules/OrderList.vue";
 import ShoppingCart from "../molecules/ShoppingCart.vue";
+import { OrderStatusEnum } from "../../api/openapi/index.ts";
 
 const userId = getIdFromJWT();
-const { data: cancelledOrders } = useFetchUserOrders(userId!, "CANCELLED");
-const { data: completedOrders } = useFetchUserOrders(userId!, "COMPLETED");
-const { data: pendingOrders } = useFetchUserOrders(userId!, "PENDING");
+const { data: cancelledOrders, refetch:refetchCancelledOrders } = useFetchUserOrders(userId!, OrderStatusEnum.CANCELLED);
+const { data: completedOrders , refetch: refetchCompletedOrders} = useFetchUserOrders(userId!, OrderStatusEnum.COMPLETED);
+const { data: pendingOrders, refetch: refetchPendingOrders } = useFetchUserOrders(userId!, OrderStatusEnum.PENDING);
 
+setInterval(() => {
+  refetchCancelledOrders();
+  refetchCompletedOrders();
+  refetchPendingOrders();
+}, 10000);
 const totalPrice = computed(() =>
   [...(pendingOrders.value || []), ...(completedOrders.value || [])].reduce(
     (acc, order) => acc + order.totalPrice,
