@@ -4,11 +4,11 @@ import { resolve } from 'path'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/',
   plugins: [vue()],
   server: {
     port: 8081,
   },
-  base: '/dew-qr-ui/',
   build: {
     rollupOptions: {
       input: {

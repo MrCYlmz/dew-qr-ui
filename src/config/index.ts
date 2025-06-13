@@ -1,1 +1,3 @@
-export const DEW_QR_API_URL = import.meta.env.VITE_DEW_QR_API_URL || 'localhost:8080';
+export const DEW_QR_API_URL =
+  (typeof window !== 'undefined' && (window as any).DEW_QR_API_URL) ||
+  'http://localhost:8080';
