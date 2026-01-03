@@ -30,7 +30,7 @@ export function useDeleteItem() {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: async (id: string) => {
-            await adminApi.deleteItem(id,withAdminAuthorization());
+            await adminApi.deleteItem({id:id},withAdminAuthorization());
         },
         onSuccess: () => {
             queryClient.invalidateQueries(itemKey);
