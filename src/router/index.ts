@@ -5,8 +5,7 @@ import UserLogin from '../components/pages/UserLogin.vue';
 import AdminLogin from '../components/pages/AdminLogin.vue';
 import MainLayout from '../components/layouts/MainLayout.vue';
 import AdminLayout from '../components/layouts/AdminLayout.vue';
-import AdminOrderManagerPage from '../components/pages/admin/AdminOrderManagerPage.vue';
-
+import AdminOrderManagerPage from '../components/pages/AdminOrderManagerPage.vue';
 const routes = [
   {
     path: '/',

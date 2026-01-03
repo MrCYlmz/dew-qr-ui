@@ -1,12 +1,14 @@
 <script setup lang="ts">
 import { useFetchItems } from "../../../api/user/queries.ts";
+import { useDeleteItem } from "../../../api/admin/mutations.ts";
 import UpdateItem from "./UpdateItem.vue";
 import CreateItem from "./CreateItem.vue";
-import DisplayImage from "../molecules/DisplayImage.vue";
+import DisplayImage from "../../molecules/DisplayImage.vue";
 import { computed, ref } from "vue";
 import type { Item } from "@mrcylmz/dewqr-api-generator";
 
 const { data: items } = useFetchItems();
+const { mutateAsync: deleteItem } = useDeleteItem();
 const headers = [
   { title: "Name", key: "name" },
   { title: "Catagory", key: "category" },
@@ -21,6 +23,22 @@ const selectedItem = computed(() => {
     ({} as Item)
   );
 });
+const deleteDialog = ref(false);
+
+const confirmDelete = async () => {
+  const id = selectedItem.value.id;
+  console.log("Deleting item with id:", id, "selectedItemId:", selectedItemId.value);
+  if (!id) return;
+
+  try {
+    await deleteItem(id);
+    selectedItemId.value = [];
+    deleteDialog.value = false;
+  } catch (error) {
+    console.error("Failed to delete item:", error);
+  }
+};
+
 const getColor = (value: boolean) => {
   return value ? "success" : "warning";
 };
@@ -42,6 +60,16 @@ const getColor = (value: boolean) => {
           <v-toolbar color="primary">
             <v-toolbar-title>Items</v-toolbar-title>
             <template v-slot:append>
+              <v-tooltip text="Delete item">
+                <template v-slot:activator="{ props }">
+                  <v-btn
+                    v-bind="props"
+                    icon="mdi-delete"
+                    :disabled="!(selectedItemId.length > 0)"
+                    @click="deleteDialog = true"
+                  />
+                </template>
+              </v-tooltip>
               <UpdateItem
                 :selectedItem="selectedItem"
                 :disabled="!(selectedItemId.length > 0)"
@@ -67,6 +95,20 @@ const getColor = (value: boolean) => {
           ></DisplayImage>
         </template>
       </v-data-table>
+
+      <v-dialog v-model="deleteDialog" max-width="400">
+        <v-card>
+          <v-card-title>Delete Item</v-card-title>
+          <v-card-text>
+            Are you sure you want to delete "{{ selectedItem.name }}"?
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn @click="deleteDialog = false">Cancel</v-btn>
+            <v-btn color="error" @click="confirmDelete">Delete</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
     </v-expansion-panel-text>
   </v-expansion-panel>
 </template>
