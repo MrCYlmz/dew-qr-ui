@@ -21,7 +21,7 @@ const userToReject = ref<string | null>(null);
 
 const { data: allGroups } = useFetchGroups(GroupStatus.OPEN);
 const { data: pendingUsers, refetch: refetchPendingUsers } = useFetchPendingUsers(props.table.id);
-const { data: tableOrders } = useFetchOrders(undefined, props.table.id);
+const { data: tableOrders } = props.table.hasOpenGroup ? useFetchOrders(undefined, props.table.openGroupId) : { data: ref([]) };
 
 const { mutate: approveUser, isPending: isApproving } = useApproveUser();
 const { mutate: rejectUser, isPending: isRejecting } = useRejectUser();
