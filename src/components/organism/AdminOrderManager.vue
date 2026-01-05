@@ -1,33 +1,20 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref } from "vue";
 import { useFetchOrders } from "../../api/admin/queries.ts";
 import { useChangeOrderStatus } from "../../api/admin/mutations.ts";
 import { OrderStatusEnum } from "../../api/openapi";
 import OrderList from "../molecules/OrderList.vue";
+import { useAdminOrderSse } from "../../composables/useAdminOrderSse.ts";
 
 const numberOfOrders = ref<number | undefined>(5);
 
 const { mutate: changeOrderStatus } = useChangeOrderStatus();
 
-const {data:pendingOrders, refetch: refetchPendingOrders} = useFetchOrders(OrderStatusEnum.PENDING);
-const {data: completedOrders, refetch : refetchCompletedOrders} = useFetchOrders(OrderStatusEnum.COMPLETED, undefined, numberOfOrders.value);
-const {data: cancelledOrders, refetch: refetchCancelledOrders} = useFetchOrders(OrderStatusEnum.CANCELLED, undefined, numberOfOrders.value);
+const {data:pendingOrders} = useFetchOrders(OrderStatusEnum.PENDING);
+const {data: completedOrders} = useFetchOrders(OrderStatusEnum.COMPLETED, undefined, numberOfOrders.value);
+const {data: cancelledOrders} = useFetchOrders(OrderStatusEnum.CANCELLED, undefined, numberOfOrders.value);
 
-setInterval(() => {
-  refetchCancelledOrders();
-  refetchCompletedOrders();
-  refetchPendingOrders();
-}, 5000);
-
-watch(
-  () => [pendingOrders.value, completedOrders.value, cancelledOrders.value],
-  () => {
-    console.log("Pending Orders: ", pendingOrders.value);
-    console.log("Completed Orders: ", completedOrders.value);
-    console.log("Cancelled Orders: ", cancelledOrders.value);
-  },
-  { immediate: true }
-);
+useAdminOrderSse();
 
 function completeOrder(orderId: string) {
   changeOrderStatus({ orderId, status:OrderStatusEnum.COMPLETED  });
@@ -39,12 +26,10 @@ function cancelOrder(orderId: string) {
 
 function showAllCompletedOrders() {
   numberOfOrders.value = undefined;
-  refetchCompletedOrders();
 }
 
 function showAllCancelledOrders() {
   numberOfOrders.value = undefined;
-  refetchCancelledOrders();
 }
 </script>
 
