@@ -8,6 +8,7 @@ export default defineConfig({
   plugins: [vue()],
   server: {
     port: 8081,
+    host: true, // Listen on all interfaces (0.0.0.0) for LAN access
   },
   build: {
     rollupOptions: {

@@ -12,11 +12,11 @@ import {
 } from "../openapi";
 import { withUserAuthorization } from "../auth/utils.ts";
 
-export function useFetchOrders(status?: OrderStatusEnum, tableNumber?: number, numberOfOrders?: number) {
+export function useFetchOrders(status?: OrderStatusEnum, tableId?: string, numberOfOrders?: number) {
     return useQuery({
-        queryKey: orderKey(status, tableNumber),
+        queryKey: orderKey(status, tableId),
         queryFn: async (): Promise<AdminOrder[]> => {
-            const response = await adminApi.fetchOrders(status, tableNumber, numberOfOrders, withUserAuthorization());
+            const response = await adminApi.fetchOrders(status, tableId, numberOfOrders, withUserAuthorization());
             return response.data;
         },
     });

@@ -9,7 +9,7 @@ import { rules } from "../../utils/rules.ts";
 
 const { required, maxLength } = rules;
 const route = useRoute();
-const credentials = ref({ name: "", tableNumber: 0 });
+const credentials = ref({ name: "", tableNumber: 1 });
 
 onMounted(() => {
   const tableNumber = route.query.tableNumber;
@@ -23,7 +23,9 @@ const isFormValid = ref();
 function login() {
   mutate(credentials.value, {
     onSuccess: () => {
-      router.push("/home");
+      localStorage.setItem("pendingUserName", credentials.value.name);
+      localStorage.setItem("pendingTableNumber", String(credentials.value.tableNumber));
+      router.push("/waiting");
     },
     onError: (error: { message: string }) => {
       alert("Login failed: " + error.message);

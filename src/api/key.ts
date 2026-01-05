@@ -4,7 +4,7 @@ export const itemKey = { queryKey: ['items'] }
 export const userOrdersKey = (status?: OrderStatusEnum) =>
     status ?   ['userOrders', { status }] : ['userOrders'];
 export const imageKey = (itemId:string) =>  ['images',itemId]
-export const orderKey = (status?: OrderStatusEnum, tableNumber?: number) =>
+export const orderKey = (status?: OrderStatusEnum, tableNumber?: string) =>
     status ? ['orders', { status, tableNumber }] : ['orders', { tableNumber }];
 
 // Table & Group management keys
